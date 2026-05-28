@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Contoso.PromptOps.Api/Contoso.PromptOps.Api.csproj" />
+  <Project Path="Contoso.PromptOps.Application/Contoso.PromptOps.Application.csproj" />
+  <Project Path="Contoso.PromptOps.Domain/Contoso.PromptOps.Domain.csproj" />
+  <Project Path="Contoso.PromptOps.Infrastructure/Contoso.PromptOps.Infrastructure.csproj" />
+</Solution>
