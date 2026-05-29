@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Contoso.PromptOps.Infrastructure\Contoso.PromptOps.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
