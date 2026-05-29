@@ -1,6 +1,8 @@
-﻿using Contoso.PromptOps.Application.PromptTemplates;
+﻿using Contoso.PromptOps.Api.Helpers;
+using Contoso.PromptOps.Application.PromptTemplates;
 using Contoso.PromptOps.Application.PromptTemplates.Requests;
 using Contoso.PromptOps.Application.PromptTemplates.Responses;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contoso.PromptOps.Api.Controllers;
@@ -17,7 +19,9 @@ namespace Contoso.PromptOps.Api.Controllers;
 [Route("api/prompt-templates")]
 [Produces("application/json")]
 public sealed class PromptTemplatesController(
-    IPromptTemplateService promptTemplateService) : ControllerBase
+    IPromptTemplateService promptTemplateService,
+    IValidator<CreatePromptTemplateRequest> createValidator,
+    IValidator<UpdatePromptTemplateRequest> updateValidator) : ControllerBase
 {
     /// <summary>
     /// Retrieves all prompt templates.
@@ -59,6 +63,14 @@ public sealed class PromptTemplatesController(
         CreatePromptTemplateRequest request,
         CancellationToken cancellationToken)
     {
+        var validationResult = await createValidator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return ValidationProblem(
+                ValidationHelper.ToModelStateDictionary(validationResult));
+        }
+
         var result = await promptTemplateService.CreateAsync(request, cancellationToken);
 
         return CreatedAtAction(
@@ -79,6 +91,14 @@ public sealed class PromptTemplatesController(
         UpdatePromptTemplateRequest request,
         CancellationToken cancellationToken)
     {
+        var validationResult = await updateValidator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return ValidationProblem(
+                ValidationHelper.ToModelStateDictionary(validationResult));
+        }
+
         var result = await promptTemplateService.UpdateAsync(
             id,
             request,

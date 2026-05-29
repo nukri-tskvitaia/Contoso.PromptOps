@@ -1,7 +1,9 @@
 ﻿using Contoso.PromptOps.Application.PromptExecutions;
 using Contoso.PromptOps.Application.PromptExecutions.Requests;
 using Contoso.PromptOps.Application.PromptExecutions.Responses;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Contoso.PromptOps.Api.Helpers;
 
 namespace Contoso.PromptOps.Api.Controllers;
 
@@ -16,7 +18,8 @@ namespace Contoso.PromptOps.Api.Controllers;
 [ApiController]
 [Route("api/prompt-executions")]
 public sealed class PromptExecutionsController(
-    IPromptExecutionService promptExecutionService) : ControllerBase
+    IPromptExecutionService promptExecutionService,
+    IValidator<ExecutePromptRequest> executeValidator) : ControllerBase
 {
     /// <summary>
     /// Executes a prompt template against Azure OpenAI.
@@ -31,6 +34,14 @@ public sealed class PromptExecutionsController(
         ExecutePromptRequest request,
         CancellationToken cancellationToken)
     {
+        var validationResult = await executeValidator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+        {
+            return ValidationProblem(
+                ValidationHelper.ToModelStateDictionary(validationResult));
+        }
+
         var result = await promptExecutionService.ExecuteAsync(
             request,
             cancellationToken);
