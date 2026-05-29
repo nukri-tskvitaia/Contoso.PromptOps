@@ -4,6 +4,10 @@ using Contoso.PromptOps.Domain.Exceptions;
 
 namespace Contoso.PromptOps.Domain.PromptTemplates;
 
+/// <summary>
+/// Represents a reusable AI prompt template that can be
+/// activated, versioned, and executed through Azure OpenAI.
+/// </summary>
 public sealed class PromptTemplate : Entity
 {
     private PromptTemplate()

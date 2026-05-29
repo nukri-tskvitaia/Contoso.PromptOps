@@ -3,6 +3,10 @@ using Contoso.PromptOps.Domain.Exceptions;
 
 namespace Contoso.PromptOps.Domain.PromptExecutions;
 
+/// <summary>
+/// Represents a single execution of a prompt template
+/// against an AI model.
+/// </summary>
 public sealed class PromptExecution : Entity
 {
     private PromptExecution()

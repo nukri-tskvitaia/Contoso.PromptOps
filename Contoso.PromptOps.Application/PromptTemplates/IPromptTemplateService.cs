@@ -3,6 +3,9 @@ using Contoso.PromptOps.Application.PromptTemplates.Responses;
 
 namespace Contoso.PromptOps.Application.PromptTemplates;
 
+/// <summary>
+/// Provides operations for managing prompt templates.
+/// </summary>
 public interface IPromptTemplateService
 {
     Task<IReadOnlyList<PromptTemplateResponse>> GetAllAsync(CancellationToken cancellationToken);

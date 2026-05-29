@@ -4,10 +4,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Contoso.PromptOps.Api.Middleware;
 
+/// <summary>
+/// Converts application and domain exceptions into standardized HTTP problem details responses.
+/// </summary>
+/// <remarks>
+/// This middleware keeps controllers clean by centralizing exception-to-response mapping.
+/// Unexpected exceptions are logged and returned as generic internal server errors.
+/// </remarks>
 public sealed class ExceptionHandlingMiddleware(
     RequestDelegate next,
     ILogger<ExceptionHandlingMiddleware> logger)
 {
+
+    /// <summary>
+    /// Executes the request pipeline and handles exceptions thrown by downstream components.
+    /// </summary>
+    /// <param name="context">Current HTTP context.</param>
     public async Task InvokeAsync(HttpContext context)
     {
         try

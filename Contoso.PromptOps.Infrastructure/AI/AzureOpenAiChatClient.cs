@@ -1,24 +1,30 @@
-﻿using Contoso.PromptOps.Application.Abstractions.AI;
+﻿using Azure;
+using Azure.AI.OpenAI;
+using Contoso.PromptOps.Application.Abstractions.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
-using OpenAI;
 
 namespace Contoso.PromptOps.Infrastructure.AI;
 
-public sealed class OpenAiChatClient : IAiChatClient
+public sealed class AzureOpenAiChatClient : IAiChatClient
 {
-    private readonly OpenAIClient _openAiClient;
+    private readonly AzureOpenAIClient _azureOpenAiClient;
 
-    public OpenAiChatClient(IOptions<AiOptions> options)
+    public AzureOpenAiChatClient(IOptions<AiOptions> options)
     {
         var aiOptions = options.Value;
 
-        if (string.IsNullOrWhiteSpace(aiOptions.ApiKey))
+        if (string.IsNullOrWhiteSpace(aiOptions.Endpoint))
         {
-            throw new InvalidOperationException("OpenAI API key is not configured.");
+            throw new InvalidOperationException("Azure OpenAI endpoint is not configured.");
         }
 
-        _openAiClient = new OpenAIClient(aiOptions.ApiKey);
+        if (string.IsNullOrWhiteSpace(aiOptions.ApiKey))
+        {
+            throw new InvalidOperationException("Azure OpenAI API key is not configured.");
+        }
+
+        _azureOpenAiClient = new AzureOpenAIClient(new Uri(aiOptions.Endpoint), new AzureKeyCredential(aiOptions.ApiKey));
     }
 
     public async Task<AiChatResult> GenerateResponseAsync(
@@ -28,7 +34,7 @@ public sealed class OpenAiChatClient : IAiChatClient
         double temperature,
         CancellationToken cancellationToken)
     {
-        var chatClient = _openAiClient
+        var chatClient = _azureOpenAiClient
             .GetChatClient(model)
             .AsIChatClient();
 

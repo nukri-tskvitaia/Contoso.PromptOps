@@ -25,7 +25,7 @@ public static class DependencyInjection
         services.Configure<AiOptions>(
             configuration.GetSection(AiOptions.SectionName));
 
-        services.AddScoped<IAiChatClient, OpenAiChatClient>();
+        services.AddScoped<IAiChatClient, AzureOpenAiChatClient>();
 
         services.AddScoped<IPromptTemplateRepository, PromptTemplateRepository>();
         services.AddScoped<IPromptExecutionRepository, PromptExecutionRepository>();
