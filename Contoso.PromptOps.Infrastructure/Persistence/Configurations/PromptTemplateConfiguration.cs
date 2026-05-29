@@ -1,4 +1,5 @@
 ﻿using Contoso.PromptOps.Domain.PromptTemplates;
+using Contoso.PromptOps.Infrastructure.Persistence.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -45,9 +46,11 @@ public sealed class PromptTemplateConfiguration : IEntityTypeConfiguration<Promp
             .IsRequired();
 
         builder.Property(x => x.CreatedAt)
+            .HasConversion<DateTimeOffsetToTicksConverter>()
             .IsRequired();
 
-        builder.Property(x => x.UpdatedAt);
+        builder.Property(x => x.UpdatedAt)
+            .HasConversion<NullableDateTimeOffsetToTicksConverter>();
 
         builder.HasIndex(x => new { x.Name, x.Version })
             .IsUnique();

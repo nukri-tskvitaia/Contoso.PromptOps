@@ -44,12 +44,10 @@ public sealed class AzureOpenAiChatClient : IAiChatClient
             new(ChatRole.User, userInput)
         };
 
+        // some models may not support custom temperatures and use only 1 for now
         var response = await chatClient.GetResponseAsync(
             messages,
-            new ChatOptions
-            {
-                Temperature = (float)temperature
-            },
+            new ChatOptions(),
             cancellationToken);
 
         var content = response.Text;

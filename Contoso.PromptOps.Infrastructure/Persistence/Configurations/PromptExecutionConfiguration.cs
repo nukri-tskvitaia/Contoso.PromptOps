@@ -1,4 +1,5 @@
 ﻿using Contoso.PromptOps.Domain.PromptExecutions;
+using Contoso.PromptOps.Infrastructure.Persistence.Converters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -37,9 +38,11 @@ public sealed class PromptExecutionConfiguration : IEntityTypeConfiguration<Prom
             .IsRequired();
 
         builder.Property(x => x.CreatedAt)
+            .HasConversion<DateTimeOffsetToTicksConverter>()
             .IsRequired();
 
-        builder.Property(x => x.UpdatedAt);
+        builder.Property(x => x.UpdatedAt)
+            .HasConversion<NullableDateTimeOffsetToTicksConverter>();
 
         builder.Ignore(x => x.TotalTokens);
 

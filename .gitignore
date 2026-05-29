@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Contoso.PromptOps.Api/promptops.db
+/Contoso.PromptOps.Api/promptops.db-shm
+/Contoso.PromptOps.Api/promptops.db-wal
