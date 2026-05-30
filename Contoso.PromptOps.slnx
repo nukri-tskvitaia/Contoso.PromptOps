@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Contoso.PromptOps.Api/Contoso.PromptOps.Api.csproj" />
+  <Project Path="Contoso.PromptOps.Application.UnitTests/Contoso.PromptOps.Application.UnitTests.csproj" Id="f12d166f-d498-4930-b5f7-655e6f3da79a" />
   <Project Path="Contoso.PromptOps.Application/Contoso.PromptOps.Application.csproj" />
   <Project Path="Contoso.PromptOps.Domain/Contoso.PromptOps.Domain.csproj" />
   <Project Path="Contoso.PromptOps.Infrastructure/Contoso.PromptOps.Infrastructure.csproj" />
